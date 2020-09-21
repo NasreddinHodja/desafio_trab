@@ -4,6 +4,10 @@
 #+OPTIONS: \n:t
 #+SETUPFILE: ~/org/conf/setup/theme-readtheorg.setup
 
+
+* Configuração
+  - pandas: =pip install pandas=
+  
 * IN
   * deals.contactId -> contacts
   * deals.companyId -> companies
