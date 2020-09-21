@@ -5,4 +5,12 @@
 #+SETUPFILE: ~/org/conf/setup/theme-readtheorg.setup
 
 * IN
-  * 
+  * deals.contactId -> contacts
+  * deals.companyId -> companies
+  * companies.sectorId -> sectors
+
+* OUT
+** Gráficos
+   Primeiro output deve servir de base para dois gráficos: núm de vendar por contato e valor total vendido por mes.
+** Lista de setores
+   Segundo output deve ser uma lista de setores de empresa, ordenado por quanto esse setor representa no total vendido pela empresa no mês.
