@@ -1,6 +1,5 @@
 # dirs
-in/
-out/
+out/*
 
 # files
 *.pdf
