@@ -1,0 +1,8 @@
+#+title: README
+#+OPTIONS: ^:nil
+# #+OPTIONS: *:nil
+#+OPTIONS: \n:t
+#+SETUPFILE: ~/org/conf/setup/theme-readtheorg.setup
+
+* IN
+  * 

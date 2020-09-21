@@ -1,0 +1,8 @@
+# dirs
+in/
+out/
+
+# files
+*.pdf
+*.ipynb
+error.log
