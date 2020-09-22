@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import pandas as pd
 
-pd.options.display.width = None
 
 def format_date(date: str):
     """ Return given date in format yyyymm
@@ -74,11 +73,16 @@ def rank_sectors(month: str):
     deals = deals[deals['contactsDateCreated'] == month]
     return deals
 
+#####################################################################
+
+from pretty_html_table import build_table
+
+pd.options.display.width = None
+
 def print_to_html(df):
-    with open('df.html', 'w') as f:
-        f.write(df.to_html())
+    with open('html/df.html', 'w') as f:
+        f.write(build_table(df, 'blue_light'))
         return True
     return False
 
 print_to_html(rank_sectors('201702'))
-# print(rank_sectors('201702'))
