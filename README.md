@@ -1,15 +1,15 @@
 
 # Table of Contents
 
-1.  [Configuração](#orgc1913bd)
-2.  [IN](#org4faf4dd)
-3.  [OUT](#orgcbdf4f9)
-    1.  [Gráficos](#org8b04850)
-    2.  [Lista de setores](#orgd3146bd)
+1.  [Configuração](#org07d1cb6)
+2.  [IN](#orgad5f2a7)
+3.  [OUT](#org7ac3ec1)
+    1.  [Gráficos](#orgb4485be)
+    2.  [Lista de setores](#orgbedc48c)
 
 
 
-<a id="orgc1913bd"></a>
+<a id="org07d1cb6"></a>
 
 # Configuração
 
@@ -28,7 +28,7 @@
         ./etl.py
 
 
-<a id="org4faf4dd"></a>
+<a id="orgad5f2a7"></a>
 
 # IN
 
@@ -37,19 +37,19 @@
 -   `companies.sectorId -> sectors`
 
 
-<a id="orgcbdf4f9"></a>
+<a id="org7ac3ec1"></a>
 
 # OUT
 
 
-<a id="org8b04850"></a>
+<a id="orgb4485be"></a>
 
 ## Gráficos
 
-Primeiro output deve servir de base para dois gráficos: núm de vendar por contato e valor total vendido por mes.  
+Primeiro output deve servir de base para dois gráficos: núm de vendar por contato e valor total vendido por mês.  
 
 
-<a id="orgd3146bd"></a>
+<a id="orgbedc48c"></a>
 
 ## Lista de setores
 
