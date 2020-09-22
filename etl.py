@@ -98,6 +98,7 @@ def rank_sectors(month: str = None):
                             'sector_name': 'first'})
                       .reset_index())
 
+    # get percentage
     ranked_sectors['percentage_sold'] = (ranked_sectors['total_price']
                                          / (ranked_sectors['total_price']
                                             .sum()))
