@@ -8,7 +8,9 @@
 * Configuração
   1. No terminal, navemagos para a pasta onde queremos guardar nosso código
   2. Em seguida, executamos
-     ~git clone https://github.com/NasreddinHodja/desafio_trab.git~
+     #+begin_example
+     git clone https://github.com/NasreddinHodja/desafio_trab.git
+     #+end_example
   3. O código faz uso do módulo pandas do python, que deve ser instalado com
      ~pip install pandas~
   4. O código está contido no arquivo ~etl.py~ que ser permitido para executar. Para isso, fazemos
