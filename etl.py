@@ -8,12 +8,12 @@ def format_date(date: str):
     """ Return given date in format yyyymm.
 
     Args:
-        date(str): date in the format dd/mm/yyyy.
+        date(str): date in the format mm/dd/yyyy.
     Returns:
         string with date in the format yyyymm.
     """
 
-    day, month, year = date.split('/')
+    month, day, year = date.split('/')
     return ''.join([year, month.zfill(2)])
 
 def value_sold_by_contact():
@@ -40,10 +40,12 @@ def value_sold_by_contact():
     return chart_base.filter(items=['contact_id', 'contact_name',
                                     'total_price'])
 
-def value_sold_by_month():
+def value_sold_by_month(year: str = None):
     """ Generates DataFrame containing data for barchart of
     total price sold / months.
 
+    Args:
+        year(str): yyyy, restricts months to a specific year.
     Returns:
         pd.DataFrame containing ['month', 'total_price'].
     """
@@ -52,6 +54,8 @@ def value_sold_by_month():
     deals.columns = ['date', 'total_price']
 
     deals['date'] = deals['date'].apply(format_date)
+    if year is not None:
+        deals = deals[deals['date'].str[:4] == year]
 
     chart_base = (deals.groupby(['date'])
                   .agg({'total_price': sum})
@@ -107,7 +111,7 @@ def rank_sectors(month: str = None):
 
 def write_output():
     sold_by_contact = value_sold_by_contact()
-    sold_by_month = value_sold_by_month()
+    sold_by_month = value_sold_by_month('2019')
     ranked_sectors = rank_sectors()
 
     if 'out' not in os.listdir():
@@ -117,7 +121,8 @@ def write_output():
     sold_by_month.to_csv('out/sold_by_month.csv', index=False, sep='|')
     ranked_sectors.to_csv('out/ranked_sectors.csv', index=False, sep='|')
 
-write_output()
+if __name__ == '__main__':
+    write_output()
 
 ################################################################################
 
