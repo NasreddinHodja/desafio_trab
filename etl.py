@@ -3,7 +3,6 @@ import os
 
 import pandas as pd
 
-
 def format_date(date: str):
     """ Return given date in format yyyymm.
 
