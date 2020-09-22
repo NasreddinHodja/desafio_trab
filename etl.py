@@ -123,16 +123,3 @@ def write_output():
 
 if __name__ == '__main__':
     write_output()
-
-################################################################################
-
-
-# pd.options.display.width = None
-
-# def print_to_html(df):
-#     with open('html/df.html', 'w') as f:
-#         f.write(df.to_html())
-#         return True
-#     return False
-
-# print_to_html(rank_sectors())
