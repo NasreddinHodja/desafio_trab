@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import pandas as pd
 
+pd.options.display.width = None
+
 def format_date(date: str):
     """ Return given date in format yyyymm
 
@@ -56,5 +58,27 @@ def value_sold_by_month():
 
     return chart_base
 
+def rank_sectors(month: str):
+    """ Generates list of ranked company sectors.
+    Ranked by percentage of total value sold in a month.
 
-print(value_sold_by_month().head())
+    Args:
+        month(str): yyyymm.
+    Returns:
+        Ranking list for corresponding month.
+    """
+
+    deals = pd.read_csv('in/contacts.tsv', sep='\t')
+    deals['contactsDateCreated'] = (deals['contactsDateCreated']
+                                    .apply(format_date))
+    deals = deals[deals['contactsDateCreated'] == month]
+    return deals
+
+def print_to_html(df):
+    with open('df.html', 'w') as f:
+        f.write(df.to_html())
+        return True
+    return False
+
+print_to_html(rank_sectors('201702'))
+# print(rank_sectors('201702'))
