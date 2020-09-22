@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
+import os
+
 import pandas as pd
 
 
 def format_date(date: str):
-    """ Return given date in format yyyymm
+    """ Return given date in format yyyymm.
 
     Args:
         date(str): date in the format dd/mm/yyyy.
@@ -19,7 +21,7 @@ def value_sold_by_contact():
     total price sold / contacts.
 
     Returns:
-        pd.DataFrame containing ['contact_id', 'total_price']
+        pd.DataFrame containing ['contact_id', 'total_price'].
     """
 
     # get contact_id and price
@@ -43,7 +45,7 @@ def value_sold_by_month():
     total price sold / months.
 
     Returns:
-        pd.DataFrame containing ['month', 'total_price']
+        pd.DataFrame containing ['month', 'total_price'].
     """
 
     deals = pd.read_csv('in/deals.tsv', sep='\t', usecols=[1, 2])
@@ -57,7 +59,7 @@ def value_sold_by_month():
 
     return chart_base
 
-def rank_sectors(month: str):
+def rank_sectors(month: str = None):
     """ Generates list of ranked company sectors.
     Ranked by percentage of total value sold in a month.
 
@@ -67,22 +69,65 @@ def rank_sectors(month: str):
         Ranking list for corresponding month.
     """
 
-    deals = pd.read_csv('in/contacts.tsv', sep='\t')
-    deals['contactsDateCreated'] = (deals['contactsDateCreated']
-                                    .apply(format_date))
-    deals = deals[deals['contactsDateCreated'] == month]
-    return deals
+    deals = pd.read_csv('in/deals.tsv', sep='\t', usecols=[1, 2, 4])
+    deals.columns = ['date_created', 'total_price', 'company_id']
 
-#####################################################################
+    deals['date_created'] = deals['date_created'].apply(format_date)
+    if month is not None:
+        deals = deals[deals['date_created'] == month]
 
-from pretty_html_table import build_table
+    deals = (deals.groupby(['company_id'])
+             .agg({'total_price': sum})
+             .reset_index())
+
+    # get sector keys
+    sector_keys = pd.read_csv('in/companies.tsv', sep='\t', usecols=[0, 9])
+    sector_keys.columns = ['company_id', 'sector_key']
+    deals = deals.merge(sector_keys, how='left')
+
+    # get sector names
+    sector_names = pd.read_csv('in/sectors.tsv', sep='\t')
+    sector_names.columns = ['sector_key', 'sector_name']
+    deals = deals.merge(sector_names, how='left')
+
+    ranked_sectors = (deals.groupby(['sector_key'])
+                      .agg({'total_price': sum,
+                            'sector_name': 'first'})
+                      .reset_index())
+
+    ranked_sectors['percentage_sold'] = (ranked_sectors['total_price']
+                                         / (ranked_sectors['total_price']
+                                            .sum()))
+
+    ranked_sectors = ranked_sectors.filter(items=['sector_name',
+                                                  'percentage_sold'])
+
+    return ranked_sectors.sort_values(['percentage_sold'],
+                                      ascending=False)
+
+def write_output():
+    sold_by_contact = value_sold_by_contact()
+    sold_by_month = value_sold_by_month()
+    ranked_sectors = rank_sectors()
+
+    if 'out' not in os.listdir():
+        os.mkdir('out')
+
+    sold_by_contact.to_csv('out/sold_by_contact.csv', index=False, sep='|')
+    sold_by_month.to_csv('out/sold_by_month.csv', index=False, sep='|')
+    ranked_sectors.to_csv('out/ranked_sectors.csv', index=False, sep='|')
+
+write_output()
+
+################################################################################
+
 
 pd.options.display.width = None
 
 def print_to_html(df):
     with open('html/df.html', 'w') as f:
-        f.write(build_table(df, 'blue_light'))
+        f.write(df.to_html())
         return True
     return False
 
-print_to_html(rank_sectors('201702'))
+print_to_html(rank_sectors())
