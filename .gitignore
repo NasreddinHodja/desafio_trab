@@ -6,4 +6,5 @@ html/
 *.pdf
 *.ipynb
 *.html
+*.org
 error.log
